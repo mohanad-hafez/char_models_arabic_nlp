@@ -58,7 +58,7 @@ augmented_df = augment_arabic_dataset(df)
 print("completed.")
 shuffled_df = augmented_df.sample(frac=1, random_state=42)
 
-output_path = os.path.join(project_dir,"..", "data", "Saudipp", f"train_{action}.csv")
+output_path = os.path.join(project_dir,"..", "data", "saudi_privacy_policy", f"train_{action}.csv")
 shuffled_df.to_csv(output_path, index=False, header=False)
 
 print("original train size:", len(df))

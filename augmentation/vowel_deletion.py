@@ -62,7 +62,7 @@ for aug_type in augmentation_types:
     combined_df = pd.concat([df, augmented_df], ignore_index=True)
     combined_df = combined_df.sample(frac=1, random_state=random_seed).reset_index(drop=True)
 
-    output_file = os.path.join(project_dir, "..", "data", "Saudipp", f"train_{aug_type}_vowel.csv")
+    output_file = os.path.join(project_dir, "..", "data", "saudi_privacy_policy", f"train_{aug_type}_vowel.csv")
     combined_df.to_csv(output_file, index=False, header=False)
 
     print(f"{aug_type} vowel augmentation:")

@@ -60,7 +60,7 @@ project_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Construct the data path using os.path.join
 data_path = os.path.join(project_dir, "..", "data", "saudi_privacy_policy", "train.csv")
-output_path = os.path.join(project_dir,"..",  "data", "Saudipp", "train_back.csv")
+output_path = os.path.join(project_dir,"..",  "data", "saudi_privacy_policy", "train_back.csv")
 
 df = pd.read_csv(data_path, header=None, names=['label', 'text'])
 augmented_df = augment_arabic_dataset(df)
