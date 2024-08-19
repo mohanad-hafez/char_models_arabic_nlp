@@ -6,9 +6,9 @@ import os
 random_seed = 42
 random.seed(random_seed)
 np.random.seed(random_seed)
+vowels = 'اويى'
 
 def remove_random_vowel(word):
-    vowels = 'اويى'
     vowel_positions = [i for i, char in enumerate(word) if char in vowels]
     if vowel_positions:
         pos_to_remove = random.choice(vowel_positions)
@@ -16,7 +16,6 @@ def remove_random_vowel(word):
     return word
 
 def remove_first_vowel(word):
-    vowels = 'اويى'
     vowel_positions = [i for i, char in enumerate(word) if char in vowels]
     if vowel_positions:
         pos_to_remove = vowel_positions[0]
@@ -24,7 +23,6 @@ def remove_first_vowel(word):
     return word
 
 def remove_last_vowel(word):
-    vowels = 'اويى'
     vowel_positions = [i for i, char in enumerate(word) if char in vowels]
     if vowel_positions:
         pos_to_remove = vowel_positions[-1]
