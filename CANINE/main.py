@@ -12,6 +12,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import random
+import os
+import multiprocessing
 
 def set_seed(seed):
     random.seed(seed)
@@ -28,15 +30,16 @@ torch.backends.cudnn.benchmark = False
 torch.cuda.empty_cache()
 torch.cuda.memory.set_per_process_memory_fraction(0.9) 
 
+project_dir = os.path.dirname(os.path.abspath(__file__))
 
-data_source="../data/saudi_privacy_policy/"
+data_source = os.path.join(project_dir, '..', 'data', 'saudi_privacy_policy')
 
-train_df = pd.read_csv(data_source + "train.csv", header=None, names=['label', 'text'])
-test_df = pd.read_csv(data_source + "test.csv", header=None, names=['label', 'text'])
+train_df = pd.read_csv(os.path.join(data_source, "train.csv"), header=None, names=['label', 'text'])
+test_df = pd.read_csv(os.path.join(data_source, "test.csv"), header=None, names=['label', 'text'])
 train_df['label']=train_df['label']-1
 test_df['label']=test_df['label']-1
 
-val_df = pd.read_csv(data_source + "val.csv", header=None, names=['label', 'text'])
+val_df = pd.read_csv(os.path.join(data_source, "val.csv"), header=None, names=['label', 'text'])
 val_df['label'] = val_df['label'] - 1
 
 train_ds = Dataset.from_pandas(train_df)
@@ -193,61 +196,62 @@ class CanineClassifier(pl.LightningModule):
     def test_dataloader(self):
         return test_dataloader
 
+if __name__ == '__main__':
+    multiprocessing.freeze_support()
+
+    # Early stopping callback
+    from pytorch_lightning.callbacks import EarlyStopping,ModelCheckpoint
+    early_stop_callback = EarlyStopping(
+    monitor='validation_loss',
+    min_delta=0.00,
+    patience=5,
+    verbose=False,
+    mode='min'
+    )
 
 
-# Early stopping callback
-from pytorch_lightning.callbacks import EarlyStopping,ModelCheckpoint
-early_stop_callback = EarlyStopping(
-   monitor='validation_loss',
-   min_delta=0.00,
-   patience=5,
-   verbose=False,
-   mode='min'
-)
+    # Early stopping callback
+    from pytorch_lightning.callbacks import EarlyStopping,ModelCheckpoint
+    checkpoint_callback = ModelCheckpoint(
+        monitor='validation_accuracy',
+        dirpath='checkpoints',
+        filename=f'canine-best-checkpoint' + '-{epoch:02d}-{val_accuracy:.2f}',
+        save_top_k=1,
+        mode='max'
+    )
 
+    import wandb
 
-# Early stopping callback
-from pytorch_lightning.callbacks import EarlyStopping,ModelCheckpoint
-checkpoint_callback = ModelCheckpoint(
-    monitor='validation_accuracy',
-    dirpath='checkpoints',
-    filename=f'canine-best-checkpoint' + '-{epoch:02d}-{val_accuracy:.2f}',
-    save_top_k=1,
-    mode='max'
-)
-
-import wandb
-
-wandb.login()
-
-
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {device}")
-
-
-from pytorch_lightning import Trainer
-from pytorch_lightning.loggers import WandbLogger
-
-
-model = CanineClassifier(num_labels=10, id2label=id2label)
-
-wandb_logger = WandbLogger(name='canine-s', project='CANINE')
-trainer = Trainer( logger=wandb_logger, max_epochs=50, callbacks=[checkpoint_callback], deterministic=True,)
-trainer.fit(model)
-
-
-# Test the model
-best_model = CanineClassifier.load_from_checkpoint(checkpoint_callback.best_model_path)
-test_result = trainer.test(model)
-print(f"Test result: {test_result}")
-
-test_result = trainer.test(best_model)
-print(f"Best Model Test result: {test_result}")
+    wandb.login()
 
 
 
-model.model.save_pretrained('canine')
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
+
+
+    from pytorch_lightning import Trainer
+    from pytorch_lightning.loggers import WandbLogger
+
+
+    model = CanineClassifier(num_labels=10, id2label=id2label)
+
+    wandb_logger = WandbLogger(name='canine-s', project='CANINE')
+    trainer = Trainer( logger=wandb_logger, max_epochs=50, callbacks=[checkpoint_callback], deterministic=True,)
+    trainer.fit(model)
+
+
+    # Test the model
+    best_model = CanineClassifier.load_from_checkpoint(checkpoint_callback.best_model_path)
+    test_result = trainer.test(model)
+    print(f"Test result: {test_result}")
+
+    test_result = trainer.test(best_model)
+    print(f"Best Model Test result: {test_result}")
+
+
+
+    model.model.save_pretrained('canine')
 
 
 
