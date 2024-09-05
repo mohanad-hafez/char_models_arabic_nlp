@@ -9,7 +9,7 @@ from models.char_cnn_bilstm import CharCNN_LSTM
 import numpy as np
 import sys
 
-tf.compat.v1.flags.DEFINE_string("model", "cnn", "Specifies which model to use: cnn or bilstm or cnn-bilstm")
+tf.compat.v1.flags.DEFINE_string("model", "cnn", "Specifies which model to use: cnn or bilstm")
 FLAGS = tf.compat.v1.flags.FLAGS
 
 FLAGS(sys.argv)
@@ -24,7 +24,7 @@ input_size=3000
 num_of_classes=10
 
 # Load training data
-training_data = Data(data_source=os.path.join(data_source, "train.csv"),
+training_data = Data(data_source=os.path.join(data_source, "train_style_transfer.csv"),
                      alphabet=alphabet,
                      input_size=input_size,
                      num_of_classes=num_of_classes)
@@ -58,11 +58,6 @@ elif model_name == "bilstm":
     model = CharBiLSTM(input_size=input_size,
                       alphabet_size=len(alphabet),
                       num_of_classes=num_of_classes)
-
-elif model_name == "cnn-bilstm":
-    model = CharCNN_LSTM(input_size=input_size,
-                        alphabet_size=len(alphabet),
-                        num_of_classes=num_of_classes)
     
 # Train model
 model.train(training_inputs=training_inputs,
