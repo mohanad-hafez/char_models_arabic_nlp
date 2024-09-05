@@ -88,12 +88,12 @@ class CharBiLSTM(object):
         x = Embedding(self.alphabet_size + 1, 15, embeddings_initializer=kernel_initializer)(inputs)
 
         # Bidirectional layer
-        x = Bidirectional(LSTM(self.lstm_units, kernel_initializer=kernel_initializer, return_sequences=True), merge_mode='mul')(x)
+        x = Bidirectional(LSTM(128, kernel_initializer=kernel_initializer, return_sequences=True), merge_mode='mul')(x)
         x = Flatten()(x)
         
         # Dense layer
         x = Dense(512, activation='relu', kernel_regularizer=regularizers.l2(0.01), kernel_initializer=kernel_initializer)(x)
-        x = AlphaDropout(self.dropout_p)(x)
+        x = AlphaDropout(0.15)(x)
         
         predictions = Dense(self.num_of_classes, activation='softmax', kernel_initializer=kernel_initializer)(x)
         model = Model(inputs=inputs, outputs=predictions)
