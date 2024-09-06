@@ -10,13 +10,12 @@ Before running the code, make sure you have installed all the dependencies liste
 pip install -r requirements.txt
 ```
 ### Running the Models
-#### CNN, BiLSTM, and CNN-BiLSTM Models
-To run the CNN, BiLSTM, or CNN-BiLSTM models, use the appropriate flag in the `main.py` file within the `CNN_BiLSTM` directory:
+#### CNN and BiLSTM Models
+To run the CNN or BiLSTM models, use the appropriate flag in the `main.py` file within the `CNN_BiLSTM` directory:
 ```
 cd CNN_BiLSTM
 python main.py --model=cnn
 python main.py --model=bilstm
-python main.py --model=cnn-bilstm
 ```
 
 #### CANINE Model
