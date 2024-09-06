@@ -5,7 +5,6 @@ import pandas as pd
 from data_utils import Data
 from models.char_cnn import CharCNN
 from models.char_bilstm import CharBiLSTM
-from models.char_cnn_bilstm import CharCNN_LSTM
 import numpy as np
 import sys
 
@@ -24,7 +23,7 @@ input_size=3000
 num_of_classes=10
 
 # Load training data
-training_data = Data(data_source=os.path.join(data_source, "train_style_transfer.csv"),
+training_data = Data(data_source=os.path.join(data_source, "train.csv"),
                      alphabet=alphabet,
                      input_size=input_size,
                      num_of_classes=num_of_classes)
