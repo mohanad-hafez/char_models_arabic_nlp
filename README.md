@@ -9,6 +9,14 @@ Before running the code, make sure you have installed all the dependencies liste
 ```
 pip install -r requirements.txt
 ```
+
+### Dataset Preparation
+The original dataset used in this study is not included in this repository. You can download it from https://github.com/iwan-rg/Saudi_Privacy_policy
+If you want to use the provided augmentation scripts or run the models, you’ll need to:
+1. Download the dataset from the link above.
+2. Split the dataset into train.csv, test.csv, and val.csv on your own (this is a straightforward process).
+3. Place the split files into the ```data/saudi_privacy_policy folder```. The scripts expect the data to be in this location.
+
 ### Running the Models
 #### CNN and BiLSTM Models
 To run the CNN or BiLSTM models, use the appropriate flag in the `main.py` file within the `CNN_BiLSTM` directory:
