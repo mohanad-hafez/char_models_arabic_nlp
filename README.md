@@ -11,7 +11,8 @@ pip install -r requirements.txt
 ```
 
 ### Dataset Preparation
-The original dataset used in this study is not included in this repository. You can download it from https://github.com/iwan-rg/Saudi_Privacy_policy
+The original dataset used in this study is not included in this repository. You can download it from https://github.com/iwan-rg/Saudi_Privacy_policy.
+
 If you want to use the provided augmentation scripts or run the models, you’ll need to:
 1. Download the dataset from the link above.
 2. Split the dataset into train.csv, test.csv, and val.csv on your own (this is a straightforward process).
