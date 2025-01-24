@@ -31,3 +31,8 @@ The repository includes several augmented training sets within the `data/saudi_p
 ### Generating Augmented Datasets
 The scripts used to generate the augmented training sets are also included in this repository. If you wish to create new augmented datasets or modify the existing ones, you can run these scripts, which are located in the `augmentation` folder.
 
+### Paper
+
+### Cite
+
+
