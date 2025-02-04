@@ -45,7 +45,7 @@ The scripts used to generate the augmented training sets are also included in th
 https://aclanthology.org/2025.coling-main.186.pdf
 
 
-### Cite
+### Citation
 ```
 @inproceedings{mohamed2025enhancing,
   title={Enhancing Arabic NLP Tasks through Character-Level Models and Data Augmentation},
